@@ -113,10 +113,11 @@ export default function CourseModulesPage() {
     else toast(r.data?.message||'Xatolik','error');
   };
 
-  // Fayl URL — backend /file endpoint orqali
+  // Fayl URL — lesson.module_id dan oladi (selModule undefined bo'lsa ham ishlaydi)
   const fileUrl = (lesson) => {
     const base = API_BASE.replace('/api', '');
-    return `${base}/api/course-modules/${selModule?.id}/lessons/${lesson.id}/file`;
+    const mid = lesson.module_id || selModule?.id;
+    return `${base}/api/course-modules/${mid}/lessons/${lesson.id}/file`;
   };
 
   return (
