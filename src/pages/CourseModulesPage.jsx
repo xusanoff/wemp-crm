@@ -4,7 +4,7 @@ import { getResult } from '../api';
 import { Modal, Table, Badge, Spinner, ConfirmModal, FormGroup } from '../components/UI';
 import { useToast } from '../hooks/useToast';
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+const API_BASE = process.env.REACT_APP_API_URL || 'https://wemp-crm-api-qbht.vercel.app/api';
 
 export default function CourseModulesPage() {
   const toast = useToast();
@@ -113,10 +113,10 @@ export default function CourseModulesPage() {
     else toast(r.data?.message||'Xatolik','error');
   };
 
-  const fileUrl = (path) => {
-    if (!path) return null;
-    const name = path.split('/').pop();
-    return `${API_BASE.replace('/api','')}${API_BASE.includes('localhost') ? '' : ''}/uploads/${name}`;
+  // Fayl URL — backend /file endpoint orqali
+  const fileUrl = (lesson) => {
+    const base = API_BASE.replace('/api', '');
+    return `${base}/api/course-modules/${selModule?.id}/lessons/${lesson.id}/file`;
   };
 
   return (
@@ -223,7 +223,7 @@ export default function CourseModulesPage() {
                         {l.has_file ? (
                           <>
                             <a
-                              href={`${API_BASE.replace('/api','')}/uploads/${l.file_path?.split('/').pop()}`}
+                              href={fileUrl(l)}
                               target="_blank" rel="noreferrer"
                               className="btn btn-success btn-xs"
                             >
